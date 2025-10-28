@@ -24,4 +24,3 @@ function Navbar({ user, setUser, setPage }) {
                                                                                                                   }
 
                                                                                                                   export default Navbar;
-}
