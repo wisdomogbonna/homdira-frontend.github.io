@@ -1,61 +1,90 @@
 import React from "react";
-import PaystackPop from "@paystack/inline-js";
-import Navbar from "../components/Navbar";
-import "./Premium.css";
+import { useNavigate } from "react-router-dom";
+import { PaystackButton } from "react-paystack";
 
-function Premium() {
-  const handlePayment = () => {
-      const email = localStorage.getItem("userEmail") || "landlord@example.com";
+const Premium = () => {
+  const navigate = useNavigate();
 
-          const paystack = new PaystackPop();
-              paystack.newTransaction({
-                    key: import.meta.env.VITE_PAYSTACK_PUBLIC_KEY,
-                          email: email,
-                                amount: 300000, // ₦3,000 in kobo
-                                      onSuccess: (transaction) => {
-                                              alert(`✅ Payment successful! Ref: ${transaction.reference}`);
-                                                      window.location.href = "/premium-success";
-                                                            },
-                                                                  onCancel: () => {
-                                                                          alert("❌ Payment cancelled");
-                                                                                },
-                                                                                    });
-                                                                                      };
+  const publicKey = import.meta.env.VITE_PAYSTACK_PUBLIC_KEY;
+  const amount = 300000; // ₦3,000 in kobo
+  const email = "user@example.com"; // replace with the logged-in user email
 
-                                                                                        return (
-                                                                                            <>
-                                                                                                  <Navbar />
-                                                                                                        <div className="premium-container">
-                                                                                                                <h1 className="premium-title">Go Premium</h1>
-                                                                                                                        <p className="premium-subtitle">
-                                                                                                                                  Unlock the best of <span>Homdira</span> — more visibility, unlimited
-                                                                                                                                            listings, and priority support.
-                                                                                                                                                    </p>
+  const componentProps = {
+    email,
+    amount,
+    publicKey,
+    text: "Upgrade to Premium",
+    onSuccess: () => navigate("/premium-success"),
+    onClose: () => alert("Payment cancelled."),
+  };
 
-                                                                                                                                                            <div className="premium-card">
-                                                                                                                                                                      <h2>Premium Landlord Plan</h2>
-                                                                                                                                                                                <ul>
-                                                                                                                                                                                            <li>🏠 Unlimited apartment postings</li>
-                                                                                                                                                                                                        <li>👁️‍🗨️ More views and reach to tenants</li>
-                                                                                                                                                                                                                    <li>⭐ Featured property listings</li>
-                                                                                                                                                                                                                                <li>📞 Priority contact support</li>
-                                                                                                                                                                                                                                          </ul>
-                                                                                                                                                                                                                                                    <div className="price-section">
-                                                                                                                                                                                                                                                                <h3>
-                                                                                                                                                                                                                                                                              ₦3,000 <span>/month</span>
-                                                                                                                                                                                                                                                                                          </h3>
-                                                                                                                                                                                                                                                                                                      <button className="pay-btn" onClick={handlePayment}>
-                                                                                                                                                                                                                                                                                                                    Pay with Paystack
-                                                                                                                                                                                                                                                                                                                                </button>
-                                                                                                                                                                                                                                                                                                                                          </div>
-                                                                                                                                                                                                                                                                                                                                                  </div>
+  return (
+    <div className="premium-page">
+      <style>{`
+        .premium-page {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          text-align: center;
+          height: 100vh;
+          background-color: #f9fdf9;
+          color: #0a9d57;
+          padding: 20px;
+        }
+        .premium-card {
+          background: #ffffff;
+          padding: 30px;
+          border-radius: 10px;
+          box-shadow: 0 4px 12px rgba(10,157,87,0.15);
+          max-width: 400px;
+          width: 100%;
+        }
+        .premium-card h2 {
+          font-size: 28px;
+          margin-bottom: 15px;
+        }
+        .premium-card ul {
+          list-style: none;
+          padding: 0;
+          margin: 0 0 20px 0;
+          text-align: left;
+        }
+        .premium-card ul li {
+          margin: 10px 0;
+          color: #333;
+        }
+        .pay-btn {
+          background: #0a9d57;
+          color: #fff;
+          border: none;
+          padding: 12px 20px;
+          border-radius: 8px;
+          cursor: pointer;
+          font-weight: 600;
+          font-size: 16px;
+          width: 100%;
+          transition: 0.3s ease;
+        }
+        .pay-btn:hover {
+          background: #087c44;
+        }
+      `}</style>
 
-                                                                                                                                                                                                                                                                                                                                                          <p className="note">
-                                                                                                                                                                                                                                                                                                                                                                    Secure payment powered by <strong>Paystack</strong>.
-                                                                                                                                                                                                                                                                                                                                                                            </p>
-                                                                                                                                                                                                                                                                                                                                                                                  </div>
-                                                                                                                                                                                                                                                                                                                                                                                      </>
-                                                                                                                                                                                                                                                                                                                                                                                        );
-                                                                                                                                                                                                                                                                                                                                                                                        }
+      <div className="premium-card">
+        <h2>Upgrade to Premium</h2>
+        <p>Enjoy these exclusive benefits:</p>
+        <ul>
+          <li>✅ Unlimited property postings</li>
+          <li>👀 Boosted visibility on listings</li>
+          <li>💬 Priority tenant messaging</li>
+          <li>📈 Access to analytics & insights</li>
+        </ul>
 
-                                                                                                                                                                                                                                                                                                                                                                                        export default Premium; // 👈 VERY IMPORTANT LINE
+        <PaystackButton className="pay-btn" {...componentProps} />
+      </div>
+    </div>
+  );
+};
+
+export default Premium;
