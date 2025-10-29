@@ -1,68 +1,43 @@
-import Navbar from "../components/Navbar";
-import AddProperty from "../components/AddProperty";
-import { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import PropertyList from "../components/PropertyList";
 
-function Home({ user }) {
-  const [properties, setProperties] = useState([]);
-    const [filtered, setFiltered] = useState([]);
+const Home = () => {
+  const [apartments, setApartments] = useState([]);
 
-      const fetchProperties = async () => {
-          try {
-                const res = await fetch("https://homdira-backend.onrender.com/api/properties");
-                      const data = await res.json();
-                            setProperties(data);
-                                  setFiltered(data);
-                                      } catch (err) {
-                                            console.error(err);
-                                                }
-                                                  };
+    useEffect(() => {
+        const fetchApartments = async () => {
+              try {
+                      const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/properties`);
+                              setApartments(res.data);
+                                    } catch (error) {
+                                            console.error("Error fetching apartments", error);
+                                                  }
+                                                      };
+                                                          fetchApartments();
+                                                            }, []);
 
-                                                    useEffect(() => {
-                                                        fetchProperties();
-                                                          }, []);
+                                                              return (
+                                                                  <div className="home-container">
+                                                                        <style>{`
+                                                                                .home-container {
+                                                                                          padding: 20px;
+                                                                                                    background-color: #f9fdf9;
+                                                                                                              min-height: 100vh;
+                                                                                                                        text-align: center;
+                                                                                                                                }
+                                                                                                                                        .home-container h2 {
+                                                                                                                                                  color: #0a9d57;
+                                                                                                                                                            margin-bottom: 15px;
+                                                                                                                                                                      font-weight: 700;
+                                                                                                                                                                                letter-spacing: 0.5px;
+                                                                                                                                                                                        }
+                                                                                                                                                                                              `}</style>
 
-                                                            const handleSearch = (query) => {
-                                                                const q = query.toLowerCase();
-                                                                    const results = properties.filter(
-                                                                          (p) =>
-                                                                                  p.title.toLowerCase().includes(q) ||
-                                                                                          p.location.toLowerCase().includes(q)
-                                                                                              );
-                                                                                                  setFiltered(results);
-                                                                                                    };
+                                                                                                                                                                                                    <h2>Available Apartments</h2>
+                                                                                                                                                                                                          <PropertyList apartments={apartments} />
+                                                                                                                                                                                                              </div>
+                                                                                                                                                                                                                );
+                                                                                                                                                                                                                };
 
-                                                                                                      const handleLogout = () => {
-                                                                                                          localStorage.removeItem("token");
-                                                                                                              localStorage.removeItem("user");
-                                                                                                                  window.location.href = "/login";
-                                                                                                                    };
-
-                                                                                                                      return (
-                                                                                                                          <div className="home-page">
-                                                                                                                                <Navbar user={user} onLogout={handleLogout} onSearch={handleSearch} />
-
-                                                                                                                                      {user?.role === "landlord" && (
-                                                                                                                                              <AddProperty user={user} onAdded={fetchProperties} />
-                                                                                                                                                    )}
-
-                                                                                                                                                          <div className="property-list">
-                                                                                                                                                                  {filtered.length === 0 ? (
-                                                                                                                                                                            <p>No apartments found.</p>
-                                                                                                                                                                                    ) : (
-                                                                                                                                                                                              filtered.map((p) => (
-                                                                                                                                                                                                          <div key={p._id} className="property-card">
-                                                                                                                                                                                                                        <img src={p.image} alt={p.title} />
-                                                                                                                                                                                                                                      <h3>{p.title}</h3>
-                                                                                                                                                                                                                                                    <p><strong>₦{p.price.toLocaleString()}</strong></p>
-                                                                                                                                                                                                                                                                  <p>{p.location}</p>
-                                                                                                                                                                                                                                                                                <p>{p.description}</p>
-                                                                                                                                                                                                                                                                                              <p>📞 {p.contact}</p>
-                                                                                                                                                                                                                                                                                                          </div>
-                                                                                                                                                                                                                                                                                                                    ))
-                                                                                                                                                                                                                                                                                                                            )}
-                                                                                                                                                                                                                                                                                                                                  </div>
-                                                                                                                                                                                                                                                                                                                                      </div>
-                                                                                                                                                                                                                                                                                                                                        );
-                                                                                                                                                                                                                                                                                                                                        }
-
-                                                                                                                                                                                                                                                                                                                                        export default Home;
+                                                                                                                                                                                                                export default Home;

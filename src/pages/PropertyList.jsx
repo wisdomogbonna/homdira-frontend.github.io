@@ -1,21 +1,24 @@
-function PropertyList({ properties }) {
-      if (!properties.length)
-          return <p style={{ textAlign: "center", marginTop: "50px" }}>No apartments available yet.</p>;
+import React from "react";
+import "./PropertyList.css";
+import PropertyCard from "./PropertyCard";
 
-            return (
-                <div className="property-list">
-                      {properties.map((p) => (
-                              <div key={p._id} className="property-card">
-                                        <img src={p.imageUrl} alt={p.title} className="property-img" />
-                                                  <h3>{p.title}</h3>
-                                                            <p><strong>₦{p.price}</strong></p>
-                                                                      <p>{p.location}</p>
-                                                                                <p>📞 {p.contact}</p>
-                                                                                        </div>
-                                                                                              ))}
-                                                                                                  </div>
-                                                                                                    );
-                                                                                                    }
+const PropertyList = ({ apartments }) => {
+  if (!apartments || apartments.length === 0) {
+      return (
+            <div className="no-apartments">
+                    <h3>No apartments found.</h3>
+                            <p>Check back later for new listings!</p>
+                                  </div>
+                                      );
+                                        }
 
-                                                                                                    export default PropertyList;
-}
+                                          return (
+                                              <div className="property-list">
+                                                    {apartments.map((property) => (
+                                                            <PropertyCard key={property._id} property={property} />
+                                                                  ))}
+                                                                      </div>
+                                                                        );
+                                                                        };
+
+                                                                        export default PropertyList;
