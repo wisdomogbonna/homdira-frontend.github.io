@@ -1,71 +1,71 @@
-import { useState } from "react";
+import React, { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import "./Auth.css";
 
-function Login({ setPage, setUser }) {
-  const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-      const [loading, setLoading] = useState(false);
-        const [error, setError] = useState("");
+function Login() {
+  const navigate = useNavigate();
+    const [form, setForm] = useState({ email: "", password: "" });
 
-          const handleLogin = async (e) => {
-              e.preventDefault();
-                  setLoading(true);
-                      setError("");
+      const handleChange = (e) => {
+          setForm({ ...form, [e.target.name]: e.target.value });
+            };
 
-                          try {
-                                const res = await fetch("https://homdira-backend.onrender.com/api/auth/login", {
-                                        method: "POST",
-                                                headers: { "Content-Type": "application/json" },
-                                                        body: JSON.stringify({ email, password }),
-                                                              });
+              const handleSubmit = async (e) => {
+                  e.preventDefault();
 
-                                                                    const data = await res.json();
-                                                                          if (!res.ok) throw new Error(data.message || "Login failed");
+                      const res = await fetch("https://homdira-backend.onrender.com/api/auth/login", {
+                            method: "POST",
+                                  headers: { "Content-Type": "application/json" },
+                                        body: JSON.stringify(form),
+                                            });
 
-                                                                                localStorage.setItem("token", data.token);
-                                                                                      localStorage.setItem("user", JSON.stringify(data.user));
-                                                                                            setUser(data.user);
-                                                                                                } catch (err) {
-                                                                                                      setError(err.message);
-                                                                                                          } finally {
-                                                                                                                setLoading(false);
-                                                                                                                    }
-                                                                                                                      };
+                                                const data = await res.json();
 
-                                                                                                                        return (
-                                                                                                                            <div className="auth-container">
-                                                                                                                                  <h2>Login</h2>
-                                                                                                                                        {error && <p className="error">{error}</p>}
+                                                    if (res.ok) {
+                                                          localStorage.setItem("token", data.token);
+                                                                navigate("/");
+                                                                    } else {
+                                                                          alert(data.message || "Login failed");
+                                                                              }
+                                                                                };
 
-                                                                                                                                              <form onSubmit={handleLogin}>
-                                                                                                                                                      <input
-                                                                                                                                                                type="email"
-                                                                                                                                                                          placeholder="Email"
-                                                                                                                                                                                    value={email}
-                                                                                                                                                                                              onChange={(e) => setEmail(e.target.value)}
-                                                                                                                                                                                                        required
+                                                                                  return (
+                                                                                      <div className="auth-container">
+                                                                                            <div className="auth-box">
+                                                                                                    <h2 className="auth-title">Welcome Back 👋</h2>
+                                                                                                            <p className="auth-subtitle">Login to continue to Homdira</p>
+
+                                                                                                                    <form onSubmit={handleSubmit}>
+                                                                                                                              <input
+                                                                                                                                          type="email"
+                                                                                                                                                      name="email"
+                                                                                                                                                                  placeholder="Email"
+                                                                                                                                                                              value={form.email}
+                                                                                                                                                                                          onChange={handleChange}
+                                                                                                                                                                                                      required
                                                                                                                                                                                                                 />
+                                                                                                                                                                                                                          <input
+                                                                                                                                                                                                                                      type="password"
+                                                                                                                                                                                                                                                  name="password"
+                                                                                                                                                                                                                                                              placeholder="Password"
+                                                                                                                                                                                                                                                                          value={form.password}
+                                                                                                                                                                                                                                                                                      onChange={handleChange}
+                                                                                                                                                                                                                                                                                                  required
+                                                                                                                                                                                                                                                                                                            />
+                                                                                                                                                                                                                                                                                                                      <button type="submit" className="auth-btn">
+                                                                                                                                                                                                                                                                                                                                  Login
+                                                                                                                                                                                                                                                                                                                                            </button>
+                                                                                                                                                                                                                                                                                                                                                    </form>
 
-                                                                                                                                                                                                                        <input
-                                                                                                                                                                                                                                  type="password"
-                                                                                                                                                                                                                                            placeholder="Password"
-                                                                                                                                                                                                                                                      value={password}
-                                                                                                                                                                                                                                                                onChange={(e) => setPassword(e.target.value)}
-                                                                                                                                                                                                                                                                          required
-                                                                                                                                                                                                                                                                                  />
+                                                                                                                                                                                                                                                                                                                                                            <p className="auth-footer">
+                                                                                                                                                                                                                                                                                                                                                                      Don’t have an account?{" "}
+                                                                                                                                                                                                                                                                                                                                                                                <Link to="/register" className="auth-link">
+                                                                                                                                                                                                                                                                                                                                                                                            Register
+                                                                                                                                                                                                                                                                                                                                                                                                      </Link>
+                                                                                                                                                                                                                                                                                                                                                                                                              </p>
+                                                                                                                                                                                                                                                                                                                                                                                                                    </div>
+                                                                                                                                                                                                                                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                                                                                                                                                                                                                                          );
+                                                                                                                                                                                                                                                                                                                                                                                                                          }
 
-                                                                                                                                                                                                                                                                                          <button type="submit" disabled={loading}>
-                                                                                                                                                                                                                                                                                                    {loading ? "Logging in..." : "Login"}
-                                                                                                                                                                                                                                                                                                            </button>
-                                                                                                                                                                                                                                                                                                                  </form>
-
-                                                                                                                                                                                                                                                                                                                        <p>
-                                                                                                                                                                                                                                                                                                                                Don’t have an account?{" "}
-                                                                                                                                                                                                                                                                                                                                        <span onClick={() => setPage("register")} className="link">
-                                                                                                                                                                                                                                                                                                                                                  Register here
-                                                                                                                                                                                                                                                                                                                                                          </span>
-                                                                                                                                                                                                                                                                                                                                                                </p>
-                                                                                                                                                                                                                                                                                                                                                                    </div>
-                                                                                                                                                                                                                                                                                                                                                                      );
-                                                                                                                                                                                                                                                                                                                                                                      }
-
-                                                                                                                                                                                                                                                                                                                                                                      export default Login;
+                                                                                                                                                                                                                                                                                                                                                                                                                          export default Login;

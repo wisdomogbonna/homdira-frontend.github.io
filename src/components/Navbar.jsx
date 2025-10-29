@@ -1,26 +1,29 @@
-function Navbar({ user, setUser, setPage }) {
-      const handleLogout = () => {
-          localStorage.removeItem("token");
-              localStorage.removeItem("user");
-                  setUser(null);
-                      setPage("login");
-                        };
+import React, { useState } from "react";
+import SearchModal from "./SearchModal";
+import SidebarMenu from "./SidebarMenu";
+import "./Navbar.css";
 
-                          return (
-                              <nav className="navbar">
-                                    <h2 className="nav-logo">Homdira</h2>
+function Navbar({ user, onLogout, onSearch }) {
+  const [searchOpen, setSearchOpen] = useState(false);
 
-                                          <div className="nav-links">
-                                                  {user?.role === "landlord" && (
-                                                            <button onClick={() => setPage("home")}>🏠 My Properties</button>
-                                                                    )}
-                                                                            {user?.role === "tenant" && (
-                                                                                      <button onClick={() => setPage("home")}>🏘️ Find Apartments</button>
-                                                                                              )}
-                                                                                                      <button onClick={handleLogout}>🚪 Logout</button>
-                                                                                                            </div>
-                                                                                                                </nav>
-                                                                                                                  );
-                                                                                                                  }
+    return (
+        <>
+              <nav className="navbar">
+                      <SidebarMenu user={user} onLogout={onLogout} />
+                              <h1 className="brand">Homdira</h1>
+                                      <button className="search-btn" onClick={() => setSearchOpen(true)}>
+                                                🔍
+                                                        </button>
+                                                              </nav>
 
-                                                                                                                  export default Navbar;
+                                                                    {searchOpen && (
+                                                                            <SearchModal
+                                                                                      onClose={() => setSearchOpen(false)}
+                                                                                                onSearch={onSearch}
+                                                                                                        />
+                                                                                                              )}
+                                                                                                                  </>
+                                                                                                                    );
+                                                                                                                    }
+
+                                                                                                                    export default Navbar;

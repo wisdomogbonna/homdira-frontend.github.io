@@ -1,45 +1,34 @@
-import { useState, useEffect } from "react";
-import SplashScreen from "./components/SplashScreen";
-import Navbar from "./components/Navbar";
+import React, { useState, useEffect } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
+import Premium from "./pages/Premium";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import MyApartments from "./pages/MyApartments";
+import SplashScreen from "./components/SplashScreen";
 import "./App.css";
 
 function App() {
   const [loading, setLoading] = useState(true);
-    const [page, setPage] = useState("home");
-      const [user, setUser] = useState(null);
 
-        useEffect(() => {
-            // Load splash screen for 3s
-                const timer = setTimeout(() => setLoading(false), 3000);
+    useEffect(() => {
+        const timer = setTimeout(() => setLoading(false), 2500); // 2.5s splash delay
+            return () => clearTimeout(timer);
+              }, []);
 
-                    // Retrieve saved user info
-                        const storedUser = localStorage.getItem("user");
-                            if (storedUser) {
-                                  setUser(JSON.parse(storedUser));
-                                      }
+                if (loading) return <SplashScreen />;
 
-                                          return () => clearTimeout(timer);
-                                            }, []);
+                  return (
+                      <Router>
+                            <Routes>
+                                    <Route path="/" element={<Home />} />
+                                            <Route path="/premium" element={<Premium />} />
+                                                    <Route path="/my-apartments" element={<MyApartments />} />
+                                                            <Route path="/login" element={<Login />} />
+                                                                    <Route path="/register" element={<Register />} />
+                                                                          </Routes>
+                                                                              </Router>
+                                                                                );
+                                                                                }
 
-                                              if (loading) return <SplashScreen />;
-
-                                                // Not logged in
-                                                  if (!user) {
-                                                      if (page === "login") return <Login setPage={setPage} setUser={setUser} />;
-                                                          if (page === "register") return <Register setPage={setPage} />;
-                                                              return <Login setPage={setPage} setUser={setUser} />;
-                                                                }
-
-                                                                  // Logged in user
-                                                                    return (
-                                                                        <>
-                                                                              <Navbar user={user} setUser={setUser} setPage={setPage} />
-                                                                                    <Home setPage={setPage} user={user} />
-                                                                                        </>
-                                                                                          );
-                                                                                          }
-
-                                                                                          export default App;
+                                                                                export default App;
