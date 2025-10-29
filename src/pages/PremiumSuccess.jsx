@@ -1,32 +1,53 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
-import Navbar from "../components/Navbar";
-import "./PremiumSuccess.css";
 
-function PremiumSuccess() {
-  const navigate = useNavigate();
+const PremiumSuccess = () => {
+  return (
+    <div className="premium-success">
+      <style>{`
+        .premium-success {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          height: 100vh;
+          background: #f9fdf9;
+          color: #0a9d57;
+          text-align: center;
+        }
 
-    return (
-        <>
-              <Navbar />
-                    <div className="success-container">
-                            <div className="success-card">
-                                      <div className="success-icon">✅</div>
-                                                <h1>Payment Successful!</h1>
-                                                          <p>
-                                                                      Congratulations 🎉 You’re now a <strong>Homdira Premium Landlord</strong>.
-                                                                                </p>
-                                                                                          <p className="info">
-                                                                                                      You can now post unlimited apartments and enjoy boosted visibility.
-                                                                                                                </p>
+        .premium-success h2 {
+          font-size: 28px;
+          margin-bottom: 10px;
+          font-weight: 700;
+        }
 
-                                                                                                                          <button className="home-btn" onClick={() => navigate("/")}>
-                                                                                                                                      Back to Home
-                                                                                                                                                </button>
-                                                                                                                                                        </div>
-                                                                                                                                                              </div>
-                                                                                                                                                                  </>
-                                                                                                                                                                    );
-                                                                                                                                                                    }
+        .premium-success p {
+          font-size: 16px;
+          color: #333;
+        }
 
-                                                                                                                                                                    export default PremiumSuccess;
+        .premium-success button {
+          margin-top: 20px;
+          background: #0a9d57;
+          border: none;
+          color: white;
+          padding: 10px 20px;
+          border-radius: 6px;
+          cursor: pointer;
+          font-weight: 600;
+          transition: 0.3s;
+        }
+
+        .premium-success button:hover {
+          background: #087c44;
+        }
+      `}</style>
+
+      <h2>🎉 Premium Activated!</h2>
+      <p>Your premium features are now unlocked.</p>
+      <button onClick={() => (window.location.href = "/")}>Back to Home</button>
+    </div>
+  );
+};
+
+export default PremiumSuccess;
