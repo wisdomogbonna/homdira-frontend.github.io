@@ -1,0 +1,82 @@
+.success-container {
+      display: flex;
+        justify-content: center;
+          align-items: center;
+            min-height: 90vh;
+              background-color: #f9fff9;
+                padding: 20px;
+                  font-family: "Poppins", sans-serif;
+                  }
+
+                  .success-card {
+                    background: #ffffff;
+                      border-radius: 15px;
+                        padding: 40px 30px;
+                          text-align: center;
+                            box-shadow: 0 8px 25px rgba(46, 139, 87, 0.15);
+                              max-width: 450px;
+                                animation: fadeIn 0.8s ease;
+                                }
+
+                                .success-icon {
+                                  font-size: 60px;
+                                    color: #2e8b57;
+                                      margin-bottom: 20px;
+                                        animation: pop 0.5s ease-in-out;
+                                        }
+
+                                        .success-card h1 {
+                                          font-size: 1.8rem;
+                                            color: #2e8b57;
+                                              margin-bottom: 10px;
+                                              }
+
+                                              .success-card p {
+                                                font-size: 1rem;
+                                                  color: #444;
+                                                    margin: 5px 0;
+                                                    }
+
+                                                    .success-card .info {
+                                                      font-size: 0.95rem;
+                                                        color: #666;
+                                                          margin-top: 10px;
+                                                            margin-bottom: 25px;
+                                                            }
+
+                                                            .home-btn {
+                                                              background-color: #2e8b57;
+                                                                color: white;
+                                                                  border: none;
+                                                                    padding: 12px 25px;
+                                                                      border-radius: 8px;
+                                                                        font-size: 16px;
+                                                                          cursor: pointer;
+                                                                            transition: background 0.3s ease;
+                                                                            }
+
+                                                                            .home-btn:hover {
+                                                                              background-color: #256b46;
+                                                                              }
+
+                                                                              @keyframes fadeIn {
+                                                                                from {
+                                                                                    opacity: 0;
+                                                                                        transform: translateY(10px);
+                                                                                          }
+                                                                                            to {
+                                                                                                opacity: 1;
+                                                                                                    transform: translateY(0);
+                                                                                                      }
+                                                                                                      }
+
+                                                                                                      @keyframes pop {
+                                                                                                        0% {
+                                                                                                            transform: scale(0.5);
+                                                                                                                opacity: 0;
+                                                                                                                  }
+                                                                                                                    100% {
+                                                                                                                        transform: scale(1);
+                                                                                                                            opacity: 1;
+                                                                                                                              }
+                                                                                                                              }
