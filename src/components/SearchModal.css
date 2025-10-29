@@ -1,0 +1,53 @@
+.search-modal-overlay {
+      position: fixed;
+        top: 0;
+          left: 0;
+            width: 100%;
+              height: 100%;
+                background: rgba(0, 0, 0, 0.5);
+                  display: flex;
+                    justify-content: center;
+                      align-items: center;
+                        z-index: 2000;
+                        }
+
+                        .search-modal {
+                          background: white;
+                            padding: 30px;
+                              border-radius: 10px;
+                                width: 90%;
+                                  max-width: 400px;
+                                    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+                                    }
+
+                                    .search-modal input {
+                                      width: 100%;
+                                        padding: 12px;
+                                          border-radius: 6px;
+                                            border: 1px solid #ccc;
+                                              font-size: 15px;
+                                                margin-bottom: 15px;
+                                                }
+
+                                                .search-buttons {
+                                                  display: flex;
+                                                    justify-content: space-between;
+                                                    }
+
+                                                    .search-buttons button {
+                                                      padding: 10px 15px;
+                                                        border-radius: 6px;
+                                                          border: none;
+                                                            cursor: pointer;
+                                                              font-weight: 500;
+                                                              }
+
+                                                              .search-buttons button:first-child {
+                                                                background: #2e8b57;
+                                                                  color: white;
+                                                                  }
+
+                                                                  .search-buttons .cancel {
+                                                                    background: #ccc;
+                                                                      color: black;
+                                                                      }
