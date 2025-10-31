@@ -1,143 +1,72 @@
+/* Global & theme */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body, #root { height: 100%; }
 body {
-      font-family: "Poppins", sans-serif;
-        background-color: #f6f9fc;
-          margin: 0;
-            color: #333;
-            }
+  font-family: "Poppins", sans-serif;
+  background: #f5fff8;
+  color: #222;
+  -webkit-font-smoothing: antialiased;
+}
 
-            /* Navbar */
-            .navbar {
-              display: flex;
-                justify-content: space-between;
-                  align-items: center;
-                    background: white;
-                      padding: 10px 20px;
-                        border-bottom: 1px solid #ddd;
-                          position: sticky;
-                            top: 0;
-                              z-index: 100;
-                              }
+/* Top bar area for small search button (we show a top-right search icon) */
+.top-controls {
+  display:flex;
+  justify-content:flex-end;
+  padding:12px 18px;
+  gap:10px;
+}
 
-                              .brand {
-                                color: #004aad;
-                                  font-weight: 700;
-                                    font-size: 22px;
-                                    }
+/* Buttons */
+.btn {
+  background:#2e8b57;
+  color:#fff;
+  border:none;
+  padding:10px 14px;
+  border-radius:8px;
+  cursor:pointer;
+  font-weight:600;
+}
+.btn.ghost { background: transparent; color:#2e8b57; border:1px solid #2e8b57; }
 
-                                    .search-btn {
-                                      background: none;
-                                        border: none;
-                                          font-size: 20px;
-                                            cursor: pointer;
-                                              color: #004aad;
-                                              }
+/* Layout */
+.container { max-width:1100px; margin:20px auto; padding:0 16px; }
 
-                                              /* Sidebar */
-                                              .sidebar-toggle {
-                                                font-size: 24px;
-                                                  cursor: pointer;
-                                                    color: #004aad;
-                                                    }
+/* small utilities */
+.center { text-align:center; }
+.small muted { color:#666; }
 
-                                                    /* Property Cards */
-                                                    .property-list {
-                                                      display: grid;
-                                                        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-                                                          gap: 16px;
-                                                            padding: 20px;
-                                                            }
+/* forms */
+.card {
+  background:#fff;
+  border-radius:12px;
+  box-shadow:0 6px 20px rgba(0,0,0,0.06);
+  padding:22px;
+}
 
-                                                            .property-card {
-                                                              background: white;
-                                                                border-radius: 10px;
-                                                                  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-                                                                    padding: 10px;
-                                                                      text-align: center;
-                                                                        transition: transform 0.2s ease;
-                                                                        }
+/* responsive grid for properties */
+.grid {
+  display:grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap:18px;
+}
 
-                                                                        .property-card:hover {
-                                                                          transform: translateY(-5px);
-                                                                          }
+/* Link style */
+.link { color:#2e8b57; text-decoration:none; font-weight:600; }
 
-                                                                          .property-card img {
-                                                                            width: 100%;
-                                                                              height: 180px;
-                                                                                object-fit: cover;
-                                                                                  border-radius: 8px;
-                                                                                  }
+/* Simple input */
+.input {
+  width:100%;
+  padding:12px;
+  border-radius:8px;
+  border:1px solid #ddd;
+  background:#fafafa;
+  margin-bottom:12px;
+}
 
-                                                                                  /* Add Property */
-                                                                                  .add-property-container {
-                                                                                    background: #fff;
-                                                                                      max-width: 500px;
-                                                                                        margin: 20px auto;
-                                                                                          padding: 25px;
-                                                                                            border-radius: 10px;
-                                                                                              box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-                                                                                              }
+/* small helper */
+.hint { color:#666; font-size:14px; }
 
-                                                                                              .add-form input,
-                                                                                              .add-form textarea {
-                                                                                                width: 100%;
-                                                                                                  margin: 8px 0;
-                                                                                                    padding: 10px;
-                                                                                                      border: 1px solid #ccc;
-                                                                                                        border-radius: 6px;
-                                                                                                        }
-
-                                                                                                        .add-form button {
-                                                                                                          background: #004aad;
-                                                                                                            color: white;
-                                                                                                              border: none;
-                                                                                                                padding: 12px;
-                                                                                                                  width: 100%;
-                                                                                                                    border-radius: 8px;
-                                                                                                                      font-size: 16px;
-                                                                                                                        cursor: pointer;
-                                                                                                                          margin-top: 10px;
-                                                                                                                          }
-
-                                                                                                                          /* Premium */
-                                                                                                                          .premium-container {
-                                                                                                                            max-width: 500px;
-                                                                                                                              margin: 80px auto;
-                                                                                                                                padding: 20px;
-                                                                                                                                  background: #fff;
-                                                                                                                                    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-                                                                                                                                      border-radius: 10px;
-                                                                                                                                        text-align: center;
-                                                                                                                                        }
-
-                                                                                                                                        .premium-benefits {
-                                                                                                                                          list-style: none;
-                                                                                                                                            padding: 0;
-                                                                                                                                              margin: 20px 0;
-                                                                                                                                                text-align: left;
-                                                                                                                                                }
-
-                                                                                                                                                .premium-benefits li {
-                                                                                                                                                  padding: 8px 0;
-                                                                                                                                                    font-size: 16px;
-                                                                                                                                                      color: #333;
-                                                                                                                                                      }
-
-                                                                                                                                                      .premium-price h3 {
-                                                                                                                                                        color: #004aad;
-                                                                                                                                                          margin: 20px 0;
-                                                                                                                                                          }
-
-                                                                                                                                                          .premium-btn {
-                                                                                                                                                            background: #004aad;
-                                                                                                                                                              color: white;
-                                                                                                                                                                border: none;
-                                                                                                                                                                  padding: 12px 30px;
-                                                                                                                                                                    border-radius: 8px;
-                                                                                                                                                                      cursor: pointer;
-                                                                                                                                                                        font-size: 16px;
-                                                                                                                                                                          transition: background 0.3s ease;
-                                                                                                                                                                          }
-
-                                                                                                                                                                          .premium-btn:hover {
-                                                                                                                                                                            background: #003080;
-                                                                                                                                                                            }
+/* mobile */
+@media (max-width:600px) {
+  .container { padding:0 12px; }
+}
