@@ -1,28 +1,26 @@
-import React, { useState, useEffect } from "react";
-import "../components/SplashScreen.css";
+import React, { useEffect, useState } from "react";
+import "./SplashScreen.css";
 
-function SplashScreen() {
+export default function SplashScreen() {
   const [text, setText] = useState("");
-    const fullText = "Homdira";
+  const full = "Homdira";
 
-      useEffect(() => {
-          let index = 0;
-              const interval = setInterval(() => {
-                    setText(fullText.substring(0, index + 1));
-                          index++;
-                                if (index === fullText.length) clearInterval(interval);
-                                    }, 200);
-                                        return () => clearInterval(interval);
-                                          }, []);
+  useEffect(() => {
+    let i = 0;
+    const t = setInterval(() => {
+      setText(full.slice(0, i+1));
+      i++;
+      if (i === full.length) clearInterval(t);
+    }, 180);
+    return () => clearInterval(t);
+  }, []);
 
-                                            return (
-                                                <div className="splash-container">
-                                                      <div className="splash-logo">
-                                                              🏡
-                                                                      <h1 className="splash-text">{text}</h1>
-                                                                            </div>
-                                                                                </div>
-                                                                                  );
-                                                                                  }
-
-                                                                                  export default SplashScreen;
+  return (
+    <div className="splash-screen">
+      <div className="splash-card">
+        <div className="splash-emoji">🏡</div>
+        <h1 className="splash-title">{text}</h1>
+      </div>
+    </div>
+  );
+}
