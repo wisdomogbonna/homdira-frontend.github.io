@@ -1,75 +1,51 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-const MyApartments = ({ user }) => {
+export default function MyApartments({ user }) {
   const [apartments, setApartments] = useState([]);
+  const token = localStorage.getItem("token");
 
-    useEffect(() => {
-        const fetchMyApartments = async () => {
-              try {
-                      const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/properties/landlord/${user._id}`);
-                              setApartments(res.data);
-                                    } catch (error) {
-                                            console.error("Error fetching apartments", error);
-                                                  }
-                                                      };
-                                                          if (user) fetchMyApartments();
-                                                            }, [user]);
+  useEffect(() => { if (user) fetchMine(); }, [user]);
 
-                                                              return (
-                                                                  <div className="my-apartments-container">
-                                                                        <style>{`
-                                                                                .my-apartments-container {
-                                                                                          padding: 20px;
-                                                                                                    background-color: #f9fdf9;
-                                                                                                              min-height: 100vh;
-                                                                                                                        text-align: center;
-                                                                                                                                }
-                                                                                                                                        .my-apartments-container h2 {
-                                                                                                                                                  color: #0a9d57;
-                                                                                                                                                            margin-bottom: 15px;
-                                                                                                                                                                      font-weight: 700;
-                                                                                                                                                                              }
-                                                                                                                                                                                      .apartment-card {
-                                                                                                                                                                                                background: #fff;
-                                                                                                                                                                                                          border-radius: 10px;
-                                                                                                                                                                                                                    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-                                                                                                                                                                                                                              padding: 15px;
-                                                                                                                                                                                                                                        margin: 10px auto;
-                                                                                                                                                                                                                                                  max-width: 400px;
-                                                                                                                                                                                                                                                            text-align: left;
-                                                                                                                                                                                                                                                                    }
-                                                                                                                                                                                                                                                                            .apartment-card img {
-                                                                                                                                                                                                                                                                                      width: 100%;
-                                                                                                                                                                                                                                                                                                border-radius: 8px;
-                                                                                                                                                                                                                                                                                                          height: 200px;
-                                                                                                                                                                                                                                                                                                                    object-fit: cover;
-                                                                                                                                                                                                                                                                                                                              margin-bottom: 10px;
-                                                                                                                                                                                                                                                                                                                                      }
-                                                                                                                                                                                                                                                                                                                                              .apartment-card h3 {
-                                                                                                                                                                                                                                                                                                                                                        color: #0a9d57;
-                                                                                                                                                                                                                                                                                                                                                                }
-                                                                                                                                                                                                                                                                                                                                                                        .apartment-card p {
-                                                                                                                                                                                                                                                                                                                                                                                  color: #333;
-                                                                                                                                                                                                                                                                                                                                                                                            margin: 5px 0;
-                                                                                                                                                                                                                                                                                                                                                                                                    }
-                                                                                                                                                                                                                                                                                                                                                                                                          `}</style>
+  const fetchMine = async () => {
+    try {
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/properties/user/${user._id}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      setApartments(res.data || []);
+    } catch (err) { console.error(err); }
+  };
 
-                                                                                                                                                                                                                                                                                                                                                                                                                <h2>My Apartments</h2>
-                                                                                                                                                                                                                                                                                                                                                                                                                      {apartments.length === 0 ? (
-                                                                                                                                                                                                                                                                                                                                                                                                                              <p>No apartments added yet.</p>
-                                                                                                                                                                                                                                                                                                                                                                                                                                    ) : (
-                                                                                                                                                                                                                                                                                                                                                                                                                                            apartments.map((apt) => (
-                                                                                                                                                                                                                                                                                                                                                                                                                                                      <div key={apt._id} className="apartment-card">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                  <img src={apt.image} alt={apt.title} />
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                              <h3>{apt.title}</h3>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          <p>📍 {apt.location}</p>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      <p>💰 ₦{apt.price}</p>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                </div>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        ))
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              )}
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  </div>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    );
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    };
+  const del = async (id) => {
+    if (!confirm("Delete this listing?")) return;
+    try {
+      await axios.delete(`${import.meta.env.VITE_API_URL}/api/properties/${id}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      fetchMine();
+    } catch (err) { console.error(err); alert("Failed"); }
+  };
 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    export default MyApartments;
+  return (
+    <div className="container">
+      <h2 style={{color:'#2e8b57', marginBottom:10}}>My Apartments</h2>
+      <div className="grid">
+        {apartments.length === 0 ? <div className="card center">No apartments yet</div> :
+          apartments.map(a => (
+            <div key={a._id} className="card">
+              {a.image && <img src={a.image} alt={a.title} style={{width:'100%', height:180, objectFit:'cover', borderRadius:8}}/>}
+              <div style={{padding:12}}>
+                <h4 style={{color:'#2e8b57'}}>{a.title}</h4>
+                <div className="hint">📍 {a.location}</div>
+                <div style={{marginTop:10, display:'flex', gap:8}}>
+                  <button className="btn" onClick={() => window.location.href = `/edit/${a._id}`}>Edit</button>
+                  <button className="btn ghost" onClick={() => del(a._id)}>Delete</button>
+                </div>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  );
+}
