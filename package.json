@@ -2,7 +2,6 @@
   "name": "homdira-frontend",
   "version": "1.0.0",
   "private": true,
-  "description": "Homdira Frontend - Connect tenants directly with landlords in Nigeria.",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -18,18 +17,5 @@
   "devDependencies": {
     "@vitejs/plugin-react": "^4.2.1",
     "vite": "^4.5.2"
-  },
-  "keywords": [
-    "homdira",
-    "housing",
-    "rent",
-    "tenants",
-    "landlords",
-    "real estate",
-    "Nigeria",
-    "react",
-    "vite"
-  ],
-  "author": "Ajuzieogu light ihechi",
-  "license": "MIT"
+  }
 }
